@@ -16,6 +16,10 @@
         <servlet-name>fib</servlet-name>
         <servlet-class>com.joshuasnider.ecc.FibServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>fizz</servlet-name>
+        <servlet-class>com.joshuasnider.ecc.FizzBuzzServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello</url-pattern>
@@ -27,5 +31,9 @@
     <servlet-mapping>
         <servlet-name>fib</servlet-name>
         <url-pattern>/fib</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>fizz</servlet-name>
+        <url-pattern>/fizz</url-pattern>
     </servlet-mapping>
 </web-app>
