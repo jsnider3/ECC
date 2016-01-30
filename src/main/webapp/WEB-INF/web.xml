@@ -24,6 +24,10 @@
         <servlet-name>prime</servlet-name>
         <servlet-class>com.joshuasnider.ecc.PrimeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sqsum</servlet-name>
+        <servlet-class>com.joshuasnider.ecc.SquareSumServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello</url-pattern>
@@ -43,5 +47,9 @@
     <servlet-mapping>
         <servlet-name>prime</servlet-name>
         <url-pattern>/prime</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sqsum</servlet-name>
+        <url-pattern>/sqsum</url-pattern>
     </servlet-mapping>
 </web-app>
