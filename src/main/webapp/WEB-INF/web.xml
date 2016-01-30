@@ -36,6 +36,10 @@
         <servlet-name>sqsum</servlet-name>
         <servlet-class>com.joshuasnider.ecc.SquareSumServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>triplets</servlet-name>
+        <servlet-class>com.joshuasnider.ecc.TripletServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello</url-pattern>
@@ -59,6 +63,10 @@
     <servlet-mapping>
         <servlet-name>factors</servlet-name>
         <url-pattern>/factors</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>triplets</servlet-name>
+        <url-pattern>/triplets</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>sexyprime</servlet-name>
