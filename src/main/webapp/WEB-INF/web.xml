@@ -8,6 +8,10 @@
         <servlet-name>anagram</servlet-name>
         <servlet-class>com.joshuasnider.ecc.AnagramServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>palindrome</servlet-name>
+        <servlet-class>com.joshuasnider.ecc.PalindromeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello</url-pattern>
@@ -15,5 +19,9 @@
     <servlet-mapping>
         <servlet-name>anagram</servlet-name>
         <url-pattern>/anagram</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>palindrome</servlet-name>
+        <url-pattern>/palindrome</url-pattern>
     </servlet-mapping>
 </web-app>
