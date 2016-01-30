@@ -14,6 +14,7 @@ public class MetroServlet extends CommonServlet {
 
     private String api_key = "1a78658b3c674ccb8e180ffa195b05e2";
     private JsonArray allstations;
+    private String stationcode;
 
     public MetroServlet() {
       getAllStations();
@@ -35,12 +36,46 @@ public class MetroServlet extends CommonServlet {
         if (obj.containsKey("destination")) {
           destination = obj.getString("destination");
         }
-        JsonObject best = getBestStation(nearby,
+        JsonObjectBuilder best = getBestStation(nearby,
           destination);
-        writeOutput(resp, best);
+        addDepartures(best, destination);
+        writeOutput(resp, best.build());
       } catch (Exception e) {
         e.printStackTrace();
       }
+    }
+
+    public void addDepartures(JsonObjectBuilder start, String destination) {
+      JsonBuilderFactory factory = Json.createBuilderFactory(
+        new HashMap<String, Object>());
+      JsonArrayBuilder departures = factory.createArrayBuilder();
+      try {
+        URL all = new URL(
+          "https://excellathon.herokuapp.com/wmata/StationPrediction.svc/json/GetPrediction/" + stationcode);
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(all.openStream()));
+        StringBuffer input = new StringBuffer();
+        String line;
+        while((line = in.readLine()) != null) {
+          input.append(line);
+        }
+        System.out.println(input.toString());
+        JsonObject response =
+          Json.createReader(new StringReader(input.toString())).readObject();
+        JsonArray leavings = response.getJsonArray("Trains");
+        for (int ind = 0; ind < leavings.size(); ind++) {
+          JsonObject outbound = leavings.getJsonObject(ind);
+          JsonObjectBuilder copy = factory.createObjectBuilder();
+          copy.add("destination", outbound.getString("Destination"));
+          copy.add("line", outbound.getString("Line"));
+          copy.add("minutes", outbound.getString("Min"));
+          //TODO Filter direction.
+          departures.add(copy.build());
+        }
+      } catch(Exception e) {
+        e.printStackTrace();
+      }
+      start.add("departures", departures.build());
     }
 
     public JsonArray getAllStations() {
@@ -66,7 +101,7 @@ public class MetroServlet extends CommonServlet {
       return allstations;
     }
 
-    public JsonObject getBestStation(JsonObject entrances, String destination) {
+    public JsonObjectBuilder getBestStation(JsonObject entrances, String destination) {
       Set<String> stations = new HashSet<String>();
       for (int i = 0; i < entrances.getJsonArray("Entrances").size(); i++) {
         JsonObject entrance = entrances.getJsonArray("Entrances").getJsonObject(i);
@@ -77,12 +112,13 @@ public class MetroServlet extends CommonServlet {
       for (int i = 0; i < getAllStations().size(); i++) {
         JsonObject entrance = getAllStations().getJsonObject(i);
         if (stations.contains(entrance.getString("Code"))) {
+          stationcode = entrance.getString("Code");
           JsonBuilderFactory factory = Json.createBuilderFactory(
             new HashMap<String, Object>());
           return factory.createObjectBuilder()
            .add("station", entrance.getString("Name"))
            .add("stationLat", entrance.getJsonNumber("Lat"))
-           .add("stationLong", entrance.getJsonNumber("Lon")).build();
+           .add("stationLong", entrance.getJsonNumber("Lon"));
         }
       }
       return null;
@@ -115,12 +151,12 @@ public class MetroServlet extends CommonServlet {
 
     public void writeOutput(HttpServletResponse resp, JsonObject best) {
       try {
-      //resp.getWriter().print("{ \"data\": ");
-      if (best != null) {
-        resp.getWriter().println(best.toString());
+        if (best != null) {
+          resp.getWriter().println(best.toString());
+        }
+      } catch(Exception e) {
+        e.printStackTrace();
       }
-      //resp.getWriter().println("}");
-      } catch(Exception e) {}
     }
 
 }
