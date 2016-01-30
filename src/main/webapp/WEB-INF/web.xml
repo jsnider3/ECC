@@ -12,6 +12,10 @@
         <servlet-name>palindrome</servlet-name>
         <servlet-class>com.joshuasnider.ecc.PalindromeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>fib</servlet-name>
+        <servlet-class>com.joshuasnider.ecc.FibServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello</url-pattern>
@@ -21,7 +25,7 @@
         <url-pattern>/anagram</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>palindrome</servlet-name>
-        <url-pattern>/palindrome</url-pattern>
+        <servlet-name>fib</servlet-name>
+        <url-pattern>/fib</url-pattern>
     </servlet-mapping>
 </web-app>

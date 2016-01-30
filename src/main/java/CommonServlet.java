@@ -8,11 +8,21 @@ import java.util.List;
 import javax.json.JsonArray;
 import javax.json.Json;
 import javax.servlet.http.*;
+import javax.servlet.*;
 
 /**
  * Shared servlet code.
  */
 public abstract class CommonServlet extends HttpServlet {
+
+  public void doPost(HttpServletRequest req, HttpServletResponse resp)
+          throws IOException {
+    try {
+      doGet(req, resp);
+    } catch (ServletException e) {
+      e.printStackTrace();
+    }
+  }
 
   public JsonArray getUnnamedArgs(HttpServletRequest req) {
     try {
