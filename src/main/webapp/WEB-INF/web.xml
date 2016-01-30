@@ -44,6 +44,10 @@
         <servlet-name>convertroman</servlet-name>
         <servlet-class>com.joshuasnider.ecc.ConvertRomanServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>convertarabic</servlet-name>
+        <servlet-class>com.joshuasnider.ecc.ConvertArabicServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello</url-pattern>
@@ -67,6 +71,10 @@
     <servlet-mapping>
         <servlet-name>convertroman</servlet-name>
         <url-pattern>/convertroman</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>convertarabic</servlet-name>
+        <url-pattern>/convertarabic</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>factors</servlet-name>
