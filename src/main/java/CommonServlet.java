@@ -39,6 +39,17 @@ public abstract class CommonServlet extends HttpServlet {
     return null;
   }
 
+    /**
+     * Check if something is a prime number.
+     */
+    public boolean isPrime(int num) {
+      for (int x = 2; x < (int)Math.pow(num, .5) + 1; x++) {
+        if (num % x == 0) {
+          return false;
+        }
+      }
+      return true;
+    }
 
 }
 

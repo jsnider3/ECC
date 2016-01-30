@@ -28,12 +28,9 @@ public class BowlingServlet extends CommonServlet {
       resp.getWriter().println("] }");
     }
 
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-      doGet(req, resp);
-    }
-
+    /**
+     * Get the score of a bowling game expressed as an array of pins knocked down.
+     */
     public int getScore(JsonArray game) {
       int frame = 1;
       int framescore = 0;

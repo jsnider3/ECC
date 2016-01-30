@@ -35,12 +35,6 @@ public class FactorServlet extends CommonServlet {
       resp.getWriter().println("] }");
     }
 
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-      doGet(req, resp);
-    }
-
     public List<Integer> getFactors(int num) {
       List<Integer> factors = new ArrayList<Integer>();
       if (num < 2) {
@@ -59,13 +53,5 @@ public class FactorServlet extends CommonServlet {
       return factors;
     }
 
-    public boolean isPrime(int num) {
-      for (int x = 2; x < num; x++) {
-        if (num % x == 0) {
-          return false;
-        }
-      }
-      return true;
-    }
 }
 

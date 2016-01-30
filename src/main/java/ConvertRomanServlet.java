@@ -27,12 +27,9 @@ public class ConvertRomanServlet extends CommonServlet {
       resp.getWriter().println("] }");
     }
 
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-      doGet(req, resp);
-    }
-
+    /**
+     * Convert a Roman numeral to an Arabic or "normal" number.
+     */
     public int convertRoman(String roman) {
       if (roman.startsWith("CM")) {
         return 900 + convertRoman(roman.substring(2));

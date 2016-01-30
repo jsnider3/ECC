@@ -34,21 +34,6 @@ public class SexyPrimeServlet extends CommonServlet {
       resp.getWriter().println("] }");
     }
 
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-      doGet(req, resp);
-    }
-
-    public boolean isPrime(int num) {
-      for (int x = 2; x < num; x++) {
-        if (num % x == 0) {
-          return false;
-        }
-      }
-      return true;
-    }
-
     public List<Integer> primesLessThan(int max) {
       List<Integer> primes = new ArrayList<Integer>();
       for (int x = 2; x < max; x++) {

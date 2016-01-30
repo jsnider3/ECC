@@ -31,19 +31,5 @@ public class PrimeServlet extends CommonServlet {
       resp.getWriter().println("] }");
     }
 
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-      doGet(req, resp);
-    }
-
-    public boolean isPrime(int num) {
-      for (int x = 2; x < num; x++) {
-        if (num % x == 0) {
-          return false;
-        }
-      }
-      return true;
-    }
 }
 
