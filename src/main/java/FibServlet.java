@@ -31,7 +31,7 @@ public class FibServlet extends CommonServlet {
     public int getFib(int index) {
       int a = 1;
       int b = 2;
-      int count = 1;
+      int count = 2;
       while (count < index) {
         int temp = b;
         b = a + b;
