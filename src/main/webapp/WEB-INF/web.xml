@@ -4,8 +4,16 @@
         <servlet-name>hello</servlet-name>
         <servlet-class>com.joshuasnider.ecc.HelloServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>anagram</servlet-name>
+        <servlet-class>com.joshuasnider.ecc.AnagramServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>hello</servlet-name>
         <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>anagram</servlet-name>
+        <url-pattern>/anagram</url-pattern>
     </servlet-mapping>
 </web-app>
