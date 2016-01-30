@@ -65,12 +65,14 @@ public class MetroServlet extends CommonServlet {
         JsonArray leavings = response.getJsonArray("Trains");
         for (int ind = 0; ind < leavings.size(); ind++) {
           JsonObject outbound = leavings.getJsonObject(ind);
-          JsonObjectBuilder copy = factory.createObjectBuilder();
-          copy.add("destination", outbound.getString("Destination"));
-          copy.add("line", outbound.getString("Line"));
-          copy.add("minutes", outbound.getString("Min"));
-          //TODO Filter direction.
-          departures.add(copy.build());
+          if (!outbound.getString("DestinationName").equals("Train")) {
+            JsonObjectBuilder copy = factory.createObjectBuilder();
+            copy.add("destination", outbound.getString("DestinationName"));
+            copy.add("line", outbound.getString("Line"));
+            copy.add("minutes", outbound.getString("Min"));
+            //TODO Filter direction.
+            departures.add(copy.build());
+          }
         }
       } catch(Exception e) {
         e.printStackTrace();
@@ -78,6 +80,9 @@ public class MetroServlet extends CommonServlet {
       start.add("departures", departures.build());
     }
 
+    /**
+     * Cache a list of all the WMATA train stations.
+     */
     public JsonArray getAllStations() {
       if (allstations == null) {
         try {
@@ -112,6 +117,7 @@ public class MetroServlet extends CommonServlet {
       for (int i = 0; i < getAllStations().size(); i++) {
         JsonObject entrance = getAllStations().getJsonObject(i);
         if (stations.contains(entrance.getString("Code"))) {
+          System.out.println(stationcode);
           stationcode = entrance.getString("Code");
           JsonBuilderFactory factory = Json.createBuilderFactory(
             new HashMap<String, Object>());
@@ -124,6 +130,9 @@ public class MetroServlet extends CommonServlet {
       return null;
     }
 
+    /**
+     * Get a train station within a given radius of a coordinate.
+     */
     public JsonObject getNearbyEntrances(String latitude, String longitude,
         String radius) {
       System.out.println(latitude);
@@ -138,7 +147,7 @@ public class MetroServlet extends CommonServlet {
               new InputStreamReader(nearbyStations.openStream()));
         StringBuffer input = new StringBuffer();
         String line;
-        while((line = in.readLine()) != null) {
+        while ((line = in.readLine()) != null) {
           input.append(line);
         }
         System.out.println(input.toString());
@@ -149,6 +158,9 @@ public class MetroServlet extends CommonServlet {
       return null;
     }
 
+    /**
+     * Write our JSON response out to the client.
+     */
     public void writeOutput(HttpServletResponse resp, JsonObject best) {
       try {
         if (best != null) {
