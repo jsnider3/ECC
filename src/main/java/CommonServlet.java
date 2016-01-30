@@ -24,7 +24,7 @@ public abstract class CommonServlet extends HttpServlet {
     }
   }
 
-  public JsonArray getUnnamedArgs(HttpServletRequest req) {
+  public String getInput(HttpServletRequest req) {
     try {
       String line = null;
       StringBuffer data = new StringBuffer();
@@ -32,7 +32,16 @@ public abstract class CommonServlet extends HttpServlet {
       while ((line = reader.readLine()) != null) {
         data.append(line);
       }
-      return Json.createReader(new StringReader(data.toString())).readArray();
+      return data.toString();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public JsonArray getUnnamedArgs(HttpServletRequest req) {
+    try {
+      return Json.createReader(new StringReader(getInput(req))).readArray();
     } catch (Exception e) {
       e.printStackTrace();
     }

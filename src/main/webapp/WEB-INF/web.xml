@@ -29,6 +29,10 @@
         <servlet-class>com.joshuasnider.ecc.FactorServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>metro</servlet-name>
+        <servlet-class>com.joshuasnider.ecc.MetroServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>bowling</servlet-name>
         <servlet-class>com.joshuasnider.ecc.BowlingServlet</servlet-class>
     </servlet>
@@ -95,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>bowling</servlet-name>
         <url-pattern>/bowling</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>metro</servlet-name>
+        <url-pattern>/metro</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>sqsum</servlet-name>
