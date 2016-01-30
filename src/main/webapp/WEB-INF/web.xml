@@ -29,6 +29,10 @@
         <servlet-class>com.joshuasnider.ecc.FactorServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>bowling</servlet-name>
+        <servlet-class>com.joshuasnider.ecc.BowlingServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>sexyprime</servlet-name>
         <servlet-class>com.joshuasnider.ecc.SexyPrimeServlet</servlet-class>
     </servlet>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>sexyprime</servlet-name>
         <url-pattern>/sexyprime</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>bowling</servlet-name>
+        <url-pattern>/bowling</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>sqsum</servlet-name>
