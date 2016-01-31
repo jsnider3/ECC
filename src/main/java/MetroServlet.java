@@ -36,8 +36,7 @@ public class MetroServlet extends CommonServlet {
         if (obj.containsKey("destination")) {
           destination = obj.getString("destination");
         }
-        JsonObjectBuilder best = getBestStation(nearby,
-          destination);
+        JsonObjectBuilder best = getBestStation(nearby);
         addDepartures(best, destination);
         writeOutput(resp, best.build());
       } catch (Exception e) {
@@ -49,6 +48,25 @@ public class MetroServlet extends CommonServlet {
       JsonBuilderFactory factory = Json.createBuilderFactory(
         new HashMap<String, Object>());
       JsonArrayBuilder departures = factory.createArrayBuilder();
+      List<JsonObject> allDepartures = getAllDepartures(start.build());
+      JsonObject endStation = getNearbyEntrance(destination);
+      for (JsonObject outboundTrain : allDepartures) {
+        if (true) {//is right direction.
+          departures.add(outboundTrain);
+        }
+      }
+      start.add("departures", departures.build());
+    }
+
+    /**
+     * Get all departures leaving a station. Does not include out-of-service
+     *  trains.
+     *
+     */
+    public List<JsonObject> getAllDepartures(JsonObject start) {
+      JsonBuilderFactory factory = Json.createBuilderFactory(
+        new HashMap<String, Object>());
+      List<JsonObject> departures = new ArrayList<>();
       try {
         URL all = new URL(
           "https://excellathon.herokuapp.com/wmata/StationPrediction.svc/json/GetPrediction/" + stationcode);
@@ -59,7 +77,6 @@ public class MetroServlet extends CommonServlet {
         while((line = in.readLine()) != null) {
           input.append(line);
         }
-        System.out.println(input.toString());
         JsonObject response =
           Json.createReader(new StringReader(input.toString())).readObject();
         JsonArray leavings = response.getJsonArray("Trains");
@@ -70,14 +87,13 @@ public class MetroServlet extends CommonServlet {
             copy.add("destination", outbound.getString("DestinationName"));
             copy.add("line", outbound.getString("Line"));
             copy.add("minutes", outbound.getString("Min"));
-            //TODO Filter direction.
             departures.add(copy.build());
           }
         }
       } catch(Exception e) {
         e.printStackTrace();
       }
-      start.add("departures", departures.build());
+      return departures;
     }
 
     /**
@@ -106,7 +122,7 @@ public class MetroServlet extends CommonServlet {
       return allstations;
     }
 
-    public JsonObjectBuilder getBestStation(JsonObject entrances, String destination) {
+    public JsonObjectBuilder getBestStation(JsonObject entrances) {
       Set<String> stations = new HashSet<String>();
       for (int i = 0; i < entrances.getJsonArray("Entrances").size(); i++) {
         JsonObject entrance = entrances.getJsonArray("Entrances").getJsonObject(i);
@@ -131,13 +147,38 @@ public class MetroServlet extends CommonServlet {
     }
 
     /**
+     * Get the train station closest to a given address.
+     */
+    public JsonObject getNearbyEntrance(String address) {
+      try {
+        URL nearbyStations = new URL(
+          "https://maps.googleapis.com/maps/api/geocode/json?address=" + URLEncoder.encode(address));
+        BufferedReader in = new BufferedReader(
+              new InputStreamReader(nearbyStations.openStream()));
+        StringBuffer input = new StringBuffer();
+        String line;
+        while ((line = in.readLine()) != null) {
+          input.append(line);
+        }
+        JsonObject results = Json.createReader(new StringReader(
+          input.toString())).readObject();
+        JsonObject location = results.getJsonArray("results").getJsonObject(0)
+          .getJsonObject("geometry").getJsonObject("location");
+        return getNearbyEntrances(
+          location.getJsonNumber("lat").toString(),
+          location.getJsonNumber("lng").toString(),
+          "600");
+      } catch(Exception e) {
+        e.printStackTrace();
+      }
+      return null;
+    }
+
+    /**
      * Get a train station within a given radius of a coordinate.
      */
     public JsonObject getNearbyEntrances(String latitude, String longitude,
         String radius) {
-      System.out.println(latitude);
-      System.out.println(longitude);
-      System.out.println(radius);
       try {
         URL nearbyStations = new URL(
           "https://api.wmata.com/Rail.svc/json/jStationEntrances?Lat=" +
