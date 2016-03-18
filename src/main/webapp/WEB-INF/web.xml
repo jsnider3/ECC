@@ -34,7 +34,7 @@
     </servlet>
     <servlet>
         <servlet-name>bowling</servlet-name>
-        <servlet-class>com.joshuasnider.ecc.BowlingServlet</servlet-class>
+        <servlet-class>com.joshuasnider.ecc.bowl.BowlingServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>sexyprime</servlet-name>

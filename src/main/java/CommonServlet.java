@@ -15,6 +15,14 @@ import javax.servlet.*;
  */
 public abstract class CommonServlet extends HttpServlet {
 
+  public List<Integer> convertJsonIntArray(JsonArray arr) {
+    List<Integer> list = new ArrayList<>();
+    for (int i = 0; i < arr.size(); i++) {
+      list.add(arr.getInt(i));
+    }
+    return list;
+  }
+
   public void doPost(HttpServletRequest req, HttpServletResponse resp)
           throws IOException {
     try {
